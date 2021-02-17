@@ -17,4 +17,12 @@ class FabulousMenuController extends AbstractController
             'controller_name' => 'FabulousMenuController',
         ]);
     }
+
+    /**
+     * @Route("/", name="home")
+     */
+    public function home()
+    {
+        return $this->render('fabulous_menu/home.html.twig');
+    }
 }
