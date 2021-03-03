@@ -19,8 +19,10 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col">
-                    <img src="https://iconape.com/wp-content/files/nb/361269/svg/361269.svg"
-                    width="500" height="250" alt="Central Perk" class="img-fluid mx-auto d-block">
+                    <a href="{{ path('menu') }}">
+                        <img src="https://iconape.com/wp-content/files/nb/361269/svg/361269.svg"
+                        width="500" height="250" alt="Central Perk" class="img-fluid mx-auto d-block">
+                    </a>
                 </div>
             </div>
             <div class="row">
@@ -49,12 +51,15 @@
                             </div>
 
                             <ul class="navbar-nav mr-auto">
-                                <li class="nav-item active">
-                                    <a class="nav-link" href="#">
-                                        <h4>Entrées</h4>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
+                                {% for categorie in categories %}
+                                    <li class="nav-item active">
+                                        <a class="nav-link" href="#">
+                                            <h4>{{ categorie.libelle }}</h4>
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                                
+                                {# <li class="nav-item">
                                     <a class="nav-link" href="#">
                                         <h4>Salades</h4>
                                     </a>
@@ -98,7 +103,7 @@
                                     <a class="nav-link" href="#">
                                         <h4>Desserts</h4>
                                     </a>
-                                </li>
+                                </li> #}
                             </ul>
                             <form class="form-inline my-2 my-lg-0" data-children-count="1">
                                 <input class="form-control mr-sm-2" type="text" placeholder="Rechercher">

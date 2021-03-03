@@ -1,0 +1,23 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Ajout d'une catégorie{% endblock %}
+
+{% form_theme formCategorie 'bootstrap_4_layout.html.twig' %}
+
+{% block body %}
+
+    {{ form_start(formCategorie) }}
+
+    {{ form_row(formCategorie.libelle, {'attr': {'placeholder': "Nom de la catégorie"}}) }}
+
+     <button type="submit" class="btn btn-success">
+        {% if editMode %}
+            Enregistrer les modifications
+        {% else %}
+            Ajouter catégorie
+        {% endif %}  
+    </button>
+
+    {{ form_end(formCategorie) }}
+
+{% endblock %}

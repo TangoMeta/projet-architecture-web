@@ -1,11 +1,35 @@
  {# Page d'affichage du menu pour le restaurateur #}
 {% extends "base.html.twig" %}
 
-{% block title %}Edition du menu{% endblock %}
+{% block title %}Menu du Central Perk{% endblock %}
 
 {% block body %}
-    <h1>Logo resto - espace restaurateur</h1>
-    <h2>navbar (loupe, sections)</h2>
-    <h3>Titre section</h3>
+    <div class="container-fluid ml-4">
+        <div class="row">
+            <div class="col my-4">
+                {% for categorie in categories %}
+                    <h1>{{ categorie.libelle }}</h1>
+                    {% for plat in categorie.plats %}
+                        <h3>{{ plat.libelle }}</h3>
+                        <img src="{{ plat.image }}" alt="photo">
+                    {% endfor %}
+                {% endfor %}        
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="card" style="width: 18rem">
+                    <img src="https://placehold.it/200x200" class="card-img-top" alt="vignette">
+                    <div class="card-body">
+                        Text
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+
+    
     <div>Fiches</div>
 {% endblock %}

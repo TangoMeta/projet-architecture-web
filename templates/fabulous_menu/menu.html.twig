@@ -7,23 +7,28 @@
     <div class="container-fluid ml-4">
         <div class="row">
             <div class="col my-4">
-                <h1>Entrées</h1>        
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <div class="card" style="width: 18rem">
-                    <img src="https://placehold.it/200x200" class="card-img-top" alt="vignette">
-                    <div class="card-body">
-                        Text
+                {% for categorie in categories %}
+                    <h1>{{ categorie.libelle }}</h1>
+                    <div class="container">
+                        <div class="row row-cols-4">
+                            {% for plat in categorie.plats %}
+                                <div class="col">
+                                    <div class="card">
+                                        <img src="{{ plat.image }}" class="card-img-top" alt="Photo de {{ plat.libelle }}" width="200" height="200">
+                                        <div class="card-body">
+                                            <h3 class="card-title">{{ plat.libelle }}</h3>
+                                            <p class="card-text">{{ plat.ingredients }}</p>
+                                            <p class="card-text">Allergènes : {{ plat.allergene }}</p>
+                                            <p class="card-text">Convient au régime : {{ plat.regime }}</p>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
                     </div>
-                </div>
+                {% endfor %}        
             </div>
         </div>
-        
-        
     </div>
-
-    
-    <div>Fiches</div>
 {% endblock %}

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\PlatRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=PlatRepository::class)
@@ -19,39 +20,39 @@ class Plat
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min=5, max=255)
      */
-    private $Libelle;
+    private $libelle;
 
     /**
-     * @ORM\Column(type="array")
+     * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min=5, max=255)
      */
-    private $Ingredients = [];
+    private $ingredients;
 
     /**
      * @ORM\ManyToOne(targetEntity=Categorie::class, inversedBy="plats")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
-    private $Categorie;
+    private $categorie;
 
     /**
-     * @ORM\Column(type="array", nullable=true)
+     * @ORM\Column(type="string", length=255)
+     * @Assert\Length(max=255)
      */
-    private $Allergene = [];
+    private $allergene;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="string", length=255)
+     * @Assert\Length(max=255)
      */
-    private $Position;
-
-    /**
-     * @ORM\Column(type="array", nullable=true)
-     */
-    private $Regime = [];
+    private $regime;
 
     /**
      * @ORM\Column(type="string", length=500, nullable=true)
+     * @Assert\Url()
      */
-    private $Image;
+    private $image;
 
     public function getId(): ?int
     {
@@ -60,84 +61,72 @@ class Plat
 
     public function getLibelle(): ?string
     {
-        return $this->Libelle;
+        return $this->libelle;
     }
 
-    public function setLibelle(string $Libelle): self
+    public function setLibelle(string $libelle): self
     {
-        $this->Libelle = $Libelle;
+        $this->libelle = $libelle;
 
         return $this;
     }
 
-    public function getIngredients(): ?array
+    public function getIngredients(): ?string
     {
-        return $this->Ingredients;
+        return $this->ingredients;
     }
 
-    public function setIngredients(array $Ingredients): self
+    public function setIngredients(string $ingredients): self
     {
-        $this->Ingredients = $Ingredients;
+        $this->ingredients = $ingredients;
 
         return $this;
     }
 
-    public function getCategorie(): ?Categorie
+    public function getCategorie(): ?categorie
     {
-        return $this->Categorie;
+        return $this->categorie;
     }
 
-    public function setCategorie(?Categorie $Categorie): self
+    public function setCategorie(?Categorie $categorie): self
     {
-        $this->Categorie = $Categorie;
+        $this->categorie = $categorie;
 
         return $this;
     }
 
-    public function getAllergene(): ?array
+    public function getAllergene(): ?string
     {
-        return $this->Allergene;
+        return $this->allergene;
     }
 
-    public function setAllergene(?array $Allergene): self
+    public function setAllergene(?string $allergene): self
     {
-        $this->Allergene = $Allergene;
+        $this->allergene = $allergene;
 
         return $this;
     }
 
-    public function getPosition(): ?int
+    public function getRegime(): ?string
     {
-        return $this->Position;
+        return $this->regime;
     }
 
-    public function setPosition(?int $Position): self
+    public function setRegime(?string $regime): self
     {
-        $this->Position = $Position;
-
-        return $this;
-    }
-
-    public function getRegime(): ?array
-    {
-        return $this->Regime;
-    }
-
-    public function setRegime(?array $Regime): self
-    {
-        $this->Regime = $Regime;
+        $this->regime = $regime;
 
         return $this;
     }
 
     public function getImage(): ?string
     {
-        return $this->Image;
+        return $this->image;
     }
 
-    public function setImage(?string $Image): self
+    public function setImage(?string $image): self
     {
-        $this->Image = $Image;
+        $this->image = $image;
 
         return $this;
     }

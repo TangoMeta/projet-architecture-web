@@ -1,0 +1,23 @@
+{% extends "base.html.twig" %}
+
+{% form_theme formPlat 'bootstrap_4_layout.html.twig' %}
+
+{% block body %}
+
+    {{ form_start(formPlat) }}
+
+    {{ form_row(formPlat.libelle, {'attr': {'placeholder': "Nom du plat"}}) }}
+
+    {{ form_row(formPlat.ingredients, {'attr': {'placeholder': "Liste des ingrédients"}}) }}
+
+     <button type="submit" class="btn btn-success">
+        {% if editMode %}
+            Enregistrer les modifications
+        {% else %}
+            Ajouter plat
+        {% endif %}  
+    </button>
+
+    {{ form_end(formPlat) }}
+
+{% endblock %}
