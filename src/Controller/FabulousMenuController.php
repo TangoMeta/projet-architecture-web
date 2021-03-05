@@ -50,8 +50,8 @@ class FabulousMenuController extends AbstractController
     }
 
     /**
-     * @Route("/menu/new", name="menu_create")
-     * @Route("/menu/{id}/edit", name="menu_edit")
+     * @Route("/menu/new", name="plate_create")
+     * @Route("/menu/{id}/edit", name="plate_edit")
      */
     public function form_plat(Plat $plat = null, Request $request, EntityManagerInterface $manager)
     {
