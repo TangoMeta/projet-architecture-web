@@ -5,7 +5,10 @@ namespace App\Controller;
 use App\Entity\Categorie;
 use App\Entity\Plat;
 use App\Form\CategorieType;
+use App\Form\FilterPlatType;
 use App\Form\PlatType;
+use App\Form\SearchPlatType;
+use App\Repository\PlatRepository;
 use Doctrine\ORM\EntityManagerInterface ;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,7 +19,7 @@ class FabulousMenuController extends AbstractController
     /**
      * @Route("/", name="menu")
      */
-    public function menu()
+    public function menu(Request $request, PlatRepository $platRepository)
     {
         $repoCat = $this->getDoctrine()->getRepository(Categorie::class);
         $repoPlat = $this->getDoctrine()->getRepository(Plat::class);
@@ -24,10 +27,39 @@ class FabulousMenuController extends AbstractController
         $categories = $repoCat->findAll();
         $plats = $repoPlat->findAll();
 
+        $searchPlatForm = $this->createForm(SearchPlatType::class);
+        $filterPlatForm = $this->createForm(FilterPlatType::class);
+
+        $platsSearch = [];
+
+        if($searchPlatForm->handleRequest($request)->isSubmitted() && $searchPlatForm->isValid()) {
+            $criteria = $searchPlatForm->getData();
+            $platsSearch = $platRepository->searchPlat($criteria);
+        }
+        elseif ($filterPlatForm->handleRequest($request)->isSubmitted() && $filterPlatForm->isValid()) {
+            $filtersList = ['végétarien', 'vegan', 'pescetarien', 'soja', 'poisson', 'fruits à coques', 'gluten', 'mollusques', 'céléri', 'crustacés', 'oeuf', 'arachide', 'lupin', 'moutarde', 'produits laitiers'];
+            $criteria = $filterPlatForm->getData();
+            $activeFilters = [];
+            $i = 0;
+            foreach ($criteria as $key => $value) {
+                if ($value) {
+                    $activeFilters[$key] = $filtersList[$i];
+                }
+                else {
+                    $activeFilters[$key] = null;
+                }
+                $i++;
+            }
+            $platsSearch = $platRepository->filterPlat($activeFilters);
+        }
+
         return $this->render('fabulous_menu/menu.html.twig', [
             'controller_name' => 'FabulousMenuController',
             'categories' => $categories,
-            'plats' => $plats
+            'plats' => $plats,
+            'search_form' => $searchPlatForm->createView(),
+            'filter_form' => $filterPlatForm->createView(),
+            'plats_search' => $platsSearch
         ]);
     }
     

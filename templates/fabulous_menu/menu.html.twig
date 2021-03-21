@@ -4,202 +4,117 @@
 {% block title %}Menu du Central Perk{% endblock %}
 
 {% block body %}
-
+    {{ form_start(filter_form) }}
     <div class="container-fluid px-5 border-bottom">
         <div class="row">
             <div class="col">
                 <h3>Filtres</h3>
             </div>
         </div>
-        <div class="row">
-            <div class="col-3 mx-2 pr-5">
-                <div class="row">
-                    <div class="col">
-                        <h5>Type de plat</h5>
-                    </div>
-                </div>
-                <div class="row row-cols-3 pl-1">
-                    {% for categorie in categories %}
-                        <div class="col">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                                <label class="form-check-label" for="flexCheckChecked">
-                                    {{ categorie.libelle }}
-                                </label>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-            </div>
-            <div class="col-auto mx-2 px-5">
+        <div class="row pl-2 mt-2">
+            <div class="col-3">
                 <div class="row">
                     <div class="col">
                         <h5>Régime</h5>
                     </div>
                 </div>
-                <div class="row pl-1">
+                <div class="row pl-1 pt-2">
                     <div class="col">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                            <label class="form-check-label" for="flexCheckChecked">
-                                Végétarien
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                            <label class="form-check-label" for="flexCheckChecked">
-                                Vegan
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                            <label class="form-check-label" for="flexCheckChecked">
-                                Pescetarien
-                            </label>
-                        </div>
+                        {{ form_row(filter_form.vegetarien) }}
+                        {{ form_row(filter_form.vegan) }}
+                    </div>
+                    <div class="col">
+                        {{ form_row(filter_form.pescetarien) }}
                     </div>
                 </div>
             </div>
-            <div class="col-5 ml-5">
+            <div class="col-auto">
                 <div class="row">
                     <div class="col">
                         <h5>Allergies</h5>
                     </div>
                 </div>
-                <div class="row row-cols-3 pl-1">
-                    <div class="col-3">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                            <label class="form-check-label" for="flexCheckChecked">
-                                Soja
-                            </label>
-                        </div>
+                <div class="row pl-1 pt-2">
+                    <div class="col-auto">
+                        {{ form_row(filter_form.soja) }}
+                        {{ form_row(filter_form.poisson) }}
                     </div>
-                    <div class="col-3">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                            <label class="form-check-label" for="flexCheckChecked">
-                                Gluten
-                            </label>
-                        </div>
+                    <div class="col-auto">
+                        {{ form_row(filter_form.fruits_coques) }}
+                        {{ form_row(filter_form.gluten) }}
                     </div>
-                    <div class="col-3">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                            <label class="form-check-label" for="flexCheckChecked">
-                                Crustacés
-                            </label>
-                        </div>
+                    <div class="col-auto">
+                        {{ form_row(filter_form.mollusques) }}
+                        {{ form_row(filter_form.celeri) }}
                     </div>
-                    <div class="col-3">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                            <label class="form-check-label" for="flexCheckChecked">
-                                Lupin
-                            </label>
-                        </div>
+                    <div class="col-auto">
+                        {{ form_row(filter_form.crustaces) }}
+                        {{ form_row(filter_form.oeuf) }}
                     </div>
-                    <div class="col-3">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                            <label class="form-check-label" for="flexCheckChecked">
-                                Poisson
-                            </label>
-                        </div>
+                    <div class="col-auto">
+                        {{ form_row(filter_form.arachide) }}
+                        {{ form_row(filter_form.lupin) }}
                     </div>
-                    <div class="col-3">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                            <label class="form-check-label" for="flexCheckChecked">
-                                Mollusques
-                            </label>
-                        </div>
-                    </div>
-                    <div class="col-3">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                            <label class="form-check-label" for="flexCheckChecked">
-                                Oeuf
-                            </label>
-                        </div>
-                    </div>
-                    <div class="col-3">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                            <label class="form-check-label" for="flexCheckChecked">
-                                Moutarde
-                            </label>
-                        </div>
-                    </div>
-                    <div class="col-3">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                            <label class="form-check-label" for="flexCheckChecked">
-                                Fruits à coques
-                            </label>
-                        </div>
-                    </div>
-                    <div class="col-3">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                            <label class="form-check-label" for="flexCheckChecked">
-                                Céléri
-                            </label>
-                        </div>
-                    </div>
-                    <div class="col-3">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                            <label class="form-check-label" for="flexCheckChecked">
-                                Arachide
-                            </label>
-                        </div>
-                    </div>
-                    <div class="col-3">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                            <label class="form-check-label" for="flexCheckChecked">
-                                Produits laitiers
-                            </label>
-                        </div>
+                    <div class="col-auto">
+                        {{ form_row(filter_form.moutarde) }}
+                        {{ form_row(filter_form.produits_laitiers) }}
                     </div>
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="col my-3">
-                <button class="btn btn-success" type="button">
-                    Valider
-                </button>
+            <div class="col">
+                {{ form_row(filter_form.valider) }}
             </div>
         </div>
     </div>
+    {{ form_end(filter_form) }}
     <div class="container-fluid pl-4">
         <div class="row">
+            {% if plats_search is empty %}
             <div class="col">
                 {% for categorie in categories %}
                 <div id="{{ categorie.libelle }}" class="my-3">
                     <h1>{{ categorie.libelle }}</h1>
                 </div>
-                    <div class="container-fluid">
-                        <div class="row row-cols-4">
-                            {% for plat in categorie.plats %}
-                                <div class="col my-2">
-                                    <div class="card h-100">
-                                        <img src="{{ plat.image }}" class="card-img-top" alt="Photo de {{ plat.libelle }}" width="200" height="200">
-                                        <div class="card-body">
-                                            <h3 class="card-title">{{ plat.libelle }}</h3>
-                                            <p class="card-text">{{ plat.ingredients }}</p>
-                                            <p class="card-text">Convient au régime : {{ plat.regime }}</p>
-                                            <p class="card-text">Allergènes : {{ plat.allergene }}</p>
-                                        </div>
-                                    </div>
+                <div class="container-fluid">
+                    <div class="row row-cols-4">
+                        {% for plat in categorie.plats %}
+                        <div class="col my-2">
+                            <div class="card h-100">
+                                <img src="{{ plat.image }}" class="card-img-top" alt="Photo de {{ plat.libelle }}" width="200" height="200">
+                                <div class="card-body">
+                                    <h3 class="card-title">{{ plat.libelle }}</h3>
+                                    <p class="card-text">{{ plat.ingredients }}</p>
+                                    <p class="card-text">Convient au régime : {{ plat.regime }}</p>
+                                    <p class="card-text">Allergènes : {{ plat.allergene }}</p>
                                 </div>
-                            {% endfor %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="container-fluid mt-3">
+                <div class="row row-cols-4">
+                    {% for plat in plats_search %}
+                    <div class="col my-2">
+                        <div class="card h-100">
+                            <img src="{{ plat.image }}" class="card-img-top" alt="Photo de {{ plat.libelle }}" width="200" height="200">
+                            <div class="card-body">
+                                <h3 class="card-title">{{ plat.libelle }}</h3>
+                                <p class="card-text">{{ plat.ingredients }}</p>
+                                <p class="card-text">Convient au régime : {{ plat.regime }}</p>
+                                <p class="card-text">Allergènes : {{ plat.allergene }}</p>
+                            </div>
                         </div>
                     </div>
-                {% endfor %}        
-            </div>
+            {% endfor %}
+                </div>
+            </div>   
+            {% endif %}
         </div>
     </div>
 {% endblock %}
