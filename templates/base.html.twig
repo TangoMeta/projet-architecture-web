@@ -31,11 +31,13 @@
                         <div class="collapse navbar-collapse" id="navbarColor03">                       
                             <ul class="navbar-nav mr-auto">
                                 {% for categorie in categories %}
-                                    <li class="nav-item active">
-                                        <a class="nav-link" href="#{{ categorie.libelle }}">
-                                            <h4>{{ categorie.libelle }}</h4>
-                                        </a>
-                                    </li>
+                                    {% if categorie.libelle != "Plats masqués" %}
+                                        <li class="nav-item active">
+                                            <a class="nav-link" href="#{{ categorie.libelle }}">
+                                                <h4>{{ categorie.libelle }}</h4>
+                                            </a>
+                                        </li>
+                                    {% endif %}
                                 {% endfor %}
                             </ul>
                             <div class="col-2 col-flex pt-3">

@@ -71,50 +71,59 @@
     {{ form_end(filter_form) }}
     <div class="container-fluid pl-4">
         <div class="row">
-            {% if plats_search is empty %}
+        {% if plats_search is empty %}
             <div class="col">
                 {% for categorie in categories %}
-                <div id="{{ categorie.libelle }}" class="my-3">
-                    <h1>{{ categorie.libelle }}</h1>
-                </div>
-                <div class="container-fluid">
-                    <div class="row row-cols-4">
-                        {% for plat in categorie.plats %}
-                        <div class="col my-2">
-                            <div class="card h-100">
-                                <img src="{{ plat.image }}" class="card-img-top" alt="Photo de {{ plat.libelle }}" width="200" height="200">
-                                <div class="card-body">
-                                    <h3 class="card-title">{{ plat.libelle }}</h3>
-                                    <p class="card-text">{{ plat.ingredients }}</p>
-                                    <p class="card-text">Convient au régime : {{ plat.regime }}</p>
-                                    <p class="card-text">Allergènes : {{ plat.allergene }}</p>
+                    {% if categorie.libelle != "Plats masqués" %}
+                        <div id="{{ categorie.libelle }}" class="my-3">
+                            <h1>{{ categorie.libelle }}</h1>
+                        </div>
+                        <div class="container-fluid">
+                            <div class="row row-cols-4">
+                                {% for plat in categorie.plats %}
+                                <div class="col my-2">
+                                    <div class="card h-100">
+                                        <img src="{{ plat.image }}" class="card-img-top" alt="Photo de {{ plat.libelle }}" width="200" height="200">
+                                        <div class="card-body">
+                                            <h3 class="card-title">{{ plat.libelle }}</h3>
+                                            <p class="card-text">{{ plat.ingredients }}</p>
+                                            <p class="card-text">Convient au régime : {{ plat.regime }}</p>
+                                            <p class="card-text">Allergènes : {{ plat.allergene }}</p>
+                                        </div>
+                                    </div>
                                 </div>
+                                {% endfor %}
                             </div>
                         </div>
-                        {% endfor %}
-                    </div>
-                </div>
+                    {% endif %}
                 {% endfor %}
             </div>
-            {% else %}
+        {% else %}
             <div class="container-fluid mt-3">
+                <div class="row">
+                    <div class="col my-3">
+                        <h1>Résultats de votre recherche : </h1>
+                    </div>
+                </div>
                 <div class="row row-cols-4">
                     {% for plat in plats_search %}
-                    <div class="col my-2">
-                        <div class="card h-100">
-                            <img src="{{ plat.image }}" class="card-img-top" alt="Photo de {{ plat.libelle }}" width="200" height="200">
-                            <div class="card-body">
-                                <h3 class="card-title">{{ plat.libelle }}</h3>
-                                <p class="card-text">{{ plat.ingredients }}</p>
-                                <p class="card-text">Convient au régime : {{ plat.regime }}</p>
-                                <p class="card-text">Allergènes : {{ plat.allergene }}</p>
+                        {% if plat.getCategorie().libelle != "Plats masqués" %}
+                            <div class="col my-2">
+                                <div class="card h-100">
+                                    <img src="{{ plat.image }}" class="card-img-top" alt="Photo de {{ plat.libelle }}" width="200" height="200">
+                                    <div class="card-body">
+                                        <h3 class="card-title">{{ plat.libelle }}</h3>
+                                        <p class="card-text">{{ plat.ingredients }}</p>
+                                        <p class="card-text">Convient au régime : {{ plat.regime }}</p>
+                                        <p class="card-text">Allergènes : {{ plat.allergene }}</p>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-            {% endfor %}
+                        {% endif %}
+                    {% endfor %}
                 </div>
             </div>   
-            {% endif %}
+        {% endif %}
         </div>
     </div>
 {% endblock %}

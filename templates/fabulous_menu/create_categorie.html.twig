@@ -5,19 +5,29 @@
 {% form_theme formCategorie 'bootstrap_4_layout.html.twig' %}
 
 {% block body %}
-
-    {{ form_start(formCategorie) }}
-
-    {{ form_row(formCategorie.libelle, {'attr': {'placeholder': "Nom de la catégorie"}}) }}
-
-     <button type="submit" class="btn btn-success">
-        {% if editMode %}
-            Enregistrer les modifications
-        {% else %}
-            Ajouter catégorie
-        {% endif %}  
-    </button>
-
-    {{ form_end(formCategorie) }}
-
+    <div class="container">
+        {{ form_start(formCategorie) }}
+            <div class="row my-3">
+                <div class="col">
+                    <h1>Ajouter une catégorie de plat</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    {{ form_row(formCategorie.libelle, {'attr': {'placeholder': "Nom de la catégorie"}}) }}
+                </div>
+            </div>
+            <div class="row mt-2 mb-5">
+                <div class="col">
+                    <button type="submit" class="btn btn-success">
+                        {% if editMode %}
+                            Enregistrer les modifications
+                        {% else %}
+                            Ajouter la catégorie
+                        {% endif %}  
+                    </button>
+                </div>
+            </div>
+        {{ form_end(formCategorie) }}
+    </div>
 {% endblock %}
