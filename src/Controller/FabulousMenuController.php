@@ -2,17 +2,14 @@
 
 namespace App\Controller;
 
-use App\Entity\Categorie;
 use App\Entity\Plat;
-use App\Form\CategorieType;
+use App\Entity\Categorie;
 use App\Form\FilterPlatType;
-use App\Form\PlatType;
 use App\Form\SearchPlatType;
 use App\Repository\PlatRepository;
-use Doctrine\ORM\EntityManagerInterface ;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class FabulousMenuController extends AbstractController
 {
@@ -120,149 +117,5 @@ class FabulousMenuController extends AbstractController
             'filter_form' => $filterPlatForm->createView(),
             'plats_search' => $platsSearch
         ]);
-    }
-
-    /**
-     * @Route("/menu/new", name="plate_create")
-     * @Route("/menu/{id}/edit", name="plate_edit")
-     * Affiche le formulaire de création/édition d'un plat
-     */
-    public function form_plat(Plat $plat = null, Request $request, EntityManagerInterface $manager, PlatRepository $platRepository)
-    {
-        $repoCat = $this->getDoctrine()->getRepository(Categorie::class);
-        $repoPlat = $this->getDoctrine()->getRepository(Plat::class);
-
-        $categories = $repoCat->findAll();
-        $plats = $repoPlat->findAll();
-
-        $searchPlatForm = $this->createForm(SearchPlatType::class);
-
-        $platsSearch = [];
-
-        if($searchPlatForm->handleRequest($request)->isSubmitted() && $searchPlatForm->isValid()) {
-            $criteria = $searchPlatForm->getData();
-            $platsSearch = $platRepository->searchPlat($criteria);
-        }
-        
-        // Si le paramètre plat est null, alors on est en mode création, et une entité Plat est créée
-        if(!$plat) {
-            $plat = new Plat();
-        }
-
-        // Création du formulaire de création/édition du plat
-        $form = $this->createForm(PlatType::class, $plat);
-
-        $form->handleRequest($request);
-
-        /* Si le formulaire est envoyé et qu'il est valide,
-            alors l'entity manager fait persister la donnée créée */ 
-        if($form->isSubmitted() && $form->isValid()) {
-            $manager->persist($plat);
-            $manager->flush();
-
-            return $this->redirectToRoute('menu_edit', [
-                'id' => $plat->getId(),
-                'controller_name' => 'FabulousMenuController',
-                'categories' => $categories,
-                'plats' => $plats,
-                'search_form' => $searchPlatForm->createView(),
-                'plats_search' => $platsSearch
-            ]);
-        }
-
-        return $this->render('fabulous_menu/create_plat.html.twig', [
-            'formPlat' => $form->createView(),
-            'editMode' => $plat->getId() !== null,
-            'controller_name' => 'FabulousMenuController',
-            'categories' => $categories,
-            'plats' => $plats,
-            'search_form' => $searchPlatForm->createView(),
-            'plats_search' => $platsSearch
-        ]);
-    }
-
-
-    /**
-     * @Route("/category/new", name="category_create")
-     * @Route("/category/{id}/edit", name="category_edit")
-     */
-    public function form_category(Categorie $categorie = null, Request $request, EntityManagerInterface $manager, PlatRepository $platRepository)
-    {
-        $repoCat = $this->getDoctrine()->getRepository(Categorie::class);
-        $repoPlat = $this->getDoctrine()->getRepository(Plat::class);
-
-        $categories = $repoCat->findAll();
-        $plats = $repoPlat->findAll();
-
-        $searchPlatForm = $this->createForm(SearchPlatType::class);
-
-        $platsSearch = [];
-
-        if($searchPlatForm->handleRequest($request)->isSubmitted() && $searchPlatForm->isValid()) {
-            $criteria = $searchPlatForm->getData();
-            $platsSearch = $platRepository->searchPlat($criteria);
-        }
-
-        if(!$categorie) {
-            $categorie = new Categorie();
-        }
-
-        $form = $this->createForm(CategorieType::class, $categorie);
-
-        $form->handleRequest($request);
-
-        $repoCat = $this->getDoctrine()->getRepository(Categorie::class);
-        $repoPlat = $this->getDoctrine()->getRepository(Plat::class);
-
-        $categories = $repoCat->findAll();
-        $plats = $repoPlat->findAll();
-
-        if($form->isSubmitted() && $form->isValid()) {
-            $manager->persist($categorie);
-            $manager->flush();
-
-            return $this->redirectToRoute('menu_edit', [
-                'controller_name' => 'FabulousMenuController',
-                'categories' => $categories,
-                'plats' => $plats,
-                'search_form' => $searchPlatForm->createView(),
-                'plats_search' => $platsSearch
-            ]);
-        }
-
-        return $this->render('fabulous_menu/create_categorie.html.twig', [
-            'formCategorie' => $form->createView(),
-            'editMode' => $categorie->getId() !== null,
-            'controller_name' => 'FabulousMenuController',
-            'categories' => $categories,
-            'plats' => $plats,
-            'search_form' => $searchPlatForm->createView(),
-            'plats_search' => $platsSearch
-        ]);
-    }
-
-    /**
-     * @Route("/category/{id}/delete", name="category_delete")
-     */
-    public function delete_category(Categorie $categorie)
-    {
-        // Le gestionnaire d'entité retire la catégorie de la base de données
-        $em = $this->getDoctrine()->getManager();
-        $em->remove($categorie);
-        $em->flush();
-
-        return $this->redirectToRoute('menu_edit');
-    }
-
-    /**
-     * @Route("/plat/{id}/delete", name="plat_delete")
-     */
-    public function delete_plat(Plat $plat)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $em->remove($plat);
-        $em->flush();
-
-        return $this->redirectToRoute('menu_edit');
     }
 }
