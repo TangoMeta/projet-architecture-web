@@ -1,224 +1,256 @@
- {# Page d'affichage du menu pour la clientèle #}
+{# Page d'affichage du menu pour la clientèle #}
 {% extends "base.html.twig" %}
 
-{% block title %}Menu du Central Perk{% endblock %}
+{% block title %}Menu du Central Perk
+{% endblock %}
 
 {% block body %}
-    {{ form_start(filter_form) }}
-    <div class="container-fluid px-5 border-bottom">
-        <div class="row">
-            <div class="col">
-                <h3>Filtres</h3>
-            </div>
-        </div>
-        <div class="row pl-2 mt-2">
-            <div class="col-3">
-                <div class="row">
-                    <div class="col">
-                        <h5>Régime</h5>
-                    </div>
-                </div>
-                <div class="row pl-1 pt-2">
-                    <div class="col">
-                        {{ form_row(filter_form.vegetarien) }}
-                        {{ form_row(filter_form.vegan) }}
-                    </div>
-                    <div class="col">
-                        {{ form_row(filter_form.pescetarien) }}
-                    </div>
-                </div>
-            </div>
-            <div class="col-auto">
-                <div class="row">
-                    <div class="col">
-                        <h5>Allergies</h5>
-                    </div>
-                </div>
-                <div class="row pl-1 pt-2">
-                    <div class="col-auto">
-                        {{ form_row(filter_form.soja) }}
-                        {{ form_row(filter_form.poisson) }}
-                    </div>
-                    <div class="col-auto">
-                        {{ form_row(filter_form.fruits_coques) }}
-                        {{ form_row(filter_form.gluten) }}
-                    </div>
-                    <div class="col-auto">
-                        {{ form_row(filter_form.mollusques) }}
-                        {{ form_row(filter_form.celeri) }}
-                    </div>
-                    <div class="col-auto">
-                        {{ form_row(filter_form.crustaces) }}
-                        {{ form_row(filter_form.oeuf) }}
-                    </div>
-                    <div class="col-auto">
-                        {{ form_row(filter_form.arachide) }}
-                        {{ form_row(filter_form.lupin) }}
-                    </div>
-                    <div class="col-auto">
-                        {{ form_row(filter_form.moutarde) }}
-                        {{ form_row(filter_form.produits_laitiers) }}
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                {{ form_row(filter_form.valider) }}
-            </div>
-        </div>
-    </div>
-    {{ form_end(filter_form) }}
-    <div class="container-fluid pl-4 mt-2">
-        <div class="row">
-        {% if plats_search is empty %}
-            {% set plats_masques = "" %}
-            <div class="col">
-                {% for categorie in categories %}
-                    {% if categorie.libelle != "Plats masqués" %}
-                        <div class="row my-3 display-inline-block">
-                            <div class="col-auto">
-                                <div id="{{ categorie.libelle }}">
-                                    <h1>{{ categorie.libelle }}</h1>
-                                </div>
-                            </div>
-                            <div class="col-auto">
-                                <a class="btn btn-warning" href="{{ path('category_edit', {'id':categorie.id}) }}" role="button">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
-                                        <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
-                                    </svg>
-                                </a>
-                            </div>
-                            {% if categorie.plats is empty %}
-                                <div class="col-auto">
-                                        <a class="btn btn-primary" href="{{ path('category_delete', {'id':categorie.id}) }}" role="button">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
-                                                <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
-                                            </svg>
-                                        </a>
-                                </div>
-                            {% endif %}
-                            <div class="col-auto">
-                                <a class="btn btn-info" href="{{ path('category_create') }}" role="button">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
-                                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
-                                    </svg>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="container-fluid">
-                            <div class="row row-cols-4">
-                                {% for plat in categorie.plats %}
-                                <div class="col my-2">
-                                    <a href="{{ path('plate_edit', {'id':plat.id}) }}">
-                                        <div class="card h-100">
-                                            <img src="{{ plat.image }}" class="card-img-top" alt="Photo de {{ plat.libelle }}" width="200" height="200">
-                                            <div class="card-body">
-                                                <h3 class="card-title">{{ plat.libelle }}</h3>
-                                                <p class="card-text">{{ plat.ingredients }}</p>
-                                                <p class="card-text">Convient au régime : {{ plat.regime }}</p>
-                                                <p class="card-text">Allergènes : {{ plat.allergene }}</p>
-                                                <div class="pt-3">
-                                                    <a class="btn btn-primary" href="{{ path('plat_delete', {'id':plat.id}) }}">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
-                                                            <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
-                                                        </svg>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                                {% endfor %}
-                                <div class="col my-2">
-                                    <a href="{{ path('plate_create') }}">
-                                        <div class="card h-100">
-                                            <img src="https://bit.ly/2NAJeKC" class="card-img-top" alt="Photo de plat" width="200" height="200">
-                                            <div class="card-body">
-                                                <h3 class="card-title">Nouveau plat</h3>
-                                                <p class="card-text">Cliquer pour ajouter un nouveau plat</p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    {% else %}
-                        {% set plats_masques = categorie %}
-                    {% endif %}
-                {% endfor %}
-                <div class="row my-3 display-inline-block">
-                    <div class="col-auto">
-                        <div id="{{ plats_masques.libelle }}">
-                            <h1>{{ plats_masques.libelle }}</h1>
-                        </div>
-                    </div>
-                </div>
-                <div class="container-fluid">
-                    <div class="row row-cols-4">
-                        {% for plat in plats_masques.plats %}
-                        <div class="col my-2">
-                            <a href="{{ path('plate_edit', {'id':plat.id}) }}">
-                                <div class="card h-100">
-                                    <img src="{{ plat.image }}" class="card-img-top" alt="Photo de {{ plat.libelle }}" width="200" height="200">
-                                    <div class="card-body">
-                                        <h3 class="card-title">{{ plat.libelle }}</h3>
-                                        <p class="card-text">{{ plat.ingredients }}</p>
-                                        <p class="card-text">Convient au régime : {{ plat.regime }}</p>
-                                        <p class="card-text">Allergènes : {{ plat.allergene }}</p>
-                                        <div class="pt-3">
-                                            <a class="btn btn-primary" href="{{ path('plat_delete', {'id':plat.id}) }}">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
-                                                    <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
-                                                </svg>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        {% endfor %}
-                        <div class="col my-2">
-                            <a href="{{ path('plate_create') }}">
-                                <div class="card h-100">
-                                    <img src="https://bit.ly/2NAJeKC" class="card-img-top" alt="Photo de plat" width="200" height="200">
-                                    <div class="card-body">
-                                        <h3 class="card-title">Nouveau plat</h3>
-                                        <p class="card-text">Cliquer pour ajouter un nouveau plat</p>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {% else %}
-            <div class="container-fluid mt-3">
-                <div class="row">
-                    <div class="col my-3">
-                        <h1>Résultats de votre recherche : </h1>
-                    </div>
-                </div>
-                <div class="row row-cols-4">
-                    {% for plat in plats_search %}
-                    <div class="col my-2">
-                        <div class="card h-100">
-                            <img src="{{ plat.image }}" class="card-img-top" alt="Photo de {{ plat.libelle }}" width="200" height="200">
-                            <div class="card-body">
-                                <h3 class="card-title">{{ plat.libelle }}</h3>
-                                <p class="card-text">{{ plat.ingredients }}</p>
-                                <p class="card-text">Convient au régime : {{ plat.regime }}</p>
-                                <p class="card-text">Allergènes : {{ plat.allergene }}</p>
-                                <a class="btn btn-primary" href="{{ path('plat_delete', {'id':plat.id}) }}" role="button">
-                                    <p>Supprimer</p>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-            {% endfor %}
-                </div>
-            </div>   
-            {% endif %}
-        </div>
-    </div>
+	{# Début du formulaire de filtrage de l'affichage des plats#}
+	{{ form_start(filter_form) }}
+	<div class="container-fluid px-5 border-bottom">
+		<div class="row">
+			<div class="col">
+				<h3>Filtres</h3>
+			</div>
+		</div>
+		<div class="row pl-2 mt-2">
+			<div class="col-3">
+				<div class="row">
+					<div class="col">
+						<h5>Régime</h5>
+					</div>
+				</div>
+				<div
+					class="row pl-1 pt-2">
+					{# Placement des colonnes du formulaire une par une,
+					                pour avoir plus de clarté dans l'affichage #}
+					<div class="col">
+						{{ form_row(filter_form.vegetarien) }}
+						{{ form_row(filter_form.vegan) }}
+					</div>
+					<div class="col">
+						{{ form_row(filter_form.pescetarien) }}
+					</div>
+				</div>
+			</div>
+			<div class="col-auto">
+				<div class="row">
+					<div class="col">
+						<h5>Allergies</h5>
+					</div>
+				</div>
+				<div class="row pl-1 pt-2">
+					<div class="col-auto">
+						{{ form_row(filter_form.soja) }}
+						{{ form_row(filter_form.poisson) }}
+					</div>
+					<div class="col-auto">
+						{{ form_row(filter_form.fruits_coques) }}
+						{{ form_row(filter_form.gluten) }}
+					</div>
+					<div class="col-auto">
+						{{ form_row(filter_form.mollusques) }}
+						{{ form_row(filter_form.celeri) }}
+					</div>
+					<div class="col-auto">
+						{{ form_row(filter_form.crustaces) }}
+						{{ form_row(filter_form.oeuf) }}
+					</div>
+					<div class="col-auto">
+						{{ form_row(filter_form.arachide) }}
+						{{ form_row(filter_form.lupin) }}
+					</div>
+					<div class="col-auto">
+						{{ form_row(filter_form.moutarde) }}
+						{{ form_row(filter_form.produits_laitiers) }}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				{{ form_row(filter_form.valider) }}
+			</div>
+		</div>
+	</div>
+	{{ form_end(filter_form) }}
+	{# Fin du formulaire #}
+	{# Conteneur d'affichage du menu #}
+		<div class="container-fluid pl-4 my-2"> <div
+			class="row">
+			{# Affichage de chaque plat de chaque catégorie,
+			        si aucune recherche n'est effectuée,
+			        ou aucun filtre n'est appliqué #}
+			{% if plats_search is empty %}
+				{% set plats_masques = "" %}
+				<div class="col">
+					{% for categorie in categories %}
+						{# On affiche les catégories et les plats,
+						                    si la catégorie n'est pas celle des plats masqués #}
+						{% if categorie.libelle != "Plats masqués" %}
+							<div class="row mb-1 mt-4 display-inline-block">
+								<div class="col-auto">
+									<div id="{{ categorie.libelle }}">
+										<h1>{{ categorie.libelle }}</h1>
+									</div>
+								</div>
+								{# Affichage du bouton de modification de la catégorie #}
+								<div class="col-auto">
+									<a class="btn btn-warning" href="{{ path('category_edit', {'id':categorie.id}) }}" role="button">
+										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewbox="0 0 16 16">
+											<path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
+										</svg>
+									</a>
+								</div>
+								{# Affichage du bouton de suppression de la catégorie,
+								                            seulement si celle-ci est vide #}
+								{% if categorie.plats is empty %}
+									<div class="col-auto">
+										<a class="btn btn-primary" href="{{ path('category_delete', {'id':categorie.id}) }}" role="button">
+											<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewbox="0 0 16 16">
+												<path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
+											</svg>
+										</a>
+									</div>
+								{% endif %}
+								{# Affichage du bouton d'ajout d'une catégorie #}
+								<div class="col-auto">
+									<a class="btn btn-info" href="{{ path('category_create') }}" role="button">
+										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-fill" viewbox="0 0 16 16">
+											<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
+										</svg>
+									</a>
+								</div>
+							</div>
+							{# Affichage des plats de la catégorie #}
+							<div class="container-fluid">
+								<div class="row row-cols-4">
+									{% for plat in categorie.plats %}
+										<div class="col my-2">
+											<a href="{{ path('plate_edit', {'id':plat.id}) }}">
+												<div class="card h-100">
+													<img src="{{ plat.image }}" class="card-img-top" alt="Photo de {{ plat.libelle }}" width="200" height="200">
+													<div class="card-body">
+														<h3 class="card-title">{{ plat.libelle }}</h3>
+														<p class="card-text">{{ plat.ingredients }}</p>
+														<p class="card-text">Convient au régime :
+															{{ plat.regime }}</p>
+														<p class="card-text">Allergènes :
+															{{ plat.allergene }}</p>
+														<div class="pt-3">
+															<a class="btn btn-primary" href="{{ path('plat_delete', {'id':plat.id}) }}">
+																<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewbox="0 0 16 16">
+																	<path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
+																</svg>
+															</a>
+														</div>
+													</div>
+												</div>
+											</a>
+										</div>
+									{% endfor %}
+									{# Affichage d'une vignette d'ajout d'un plat,
+									                                à la fin de chaque catégorie #}
+									<div class="col my-2">
+										<a href="{{ path('plate_create') }}">
+											<div class="card h-100">
+												<img src="https://bit.ly/2NAJeKC" class="card-img-top" alt="Photo de plat" width="200" height="200">
+												<div class="card-body">
+													<h3 class="card-title">Nouveau plat</h3>
+													<p class="card-text">Cliquer pour ajouter un nouveau plat</p>
+												</div>
+											</div>
+										</a>
+									</div>
+								</div>
+							</div>
+							{# Assignation de la catégorie des plats masqués (et de ses plats),
+							                    pour une affichage ultérieur à la fin du menu #}
+						{% else %}
+							{% set plats_masques = categorie %}
+						{% endif %}
+					{% endfor %}
+					<div class="row my-3 display-inline-block">
+						<div class="col-auto">
+							<div id="{{ plats_masques.libelle }}">
+								<h1>{{ plats_masques.libelle }}</h1>
+							</div>
+						</div>
+					</div>
+					{# Comme précédemment, on affiche les plats de
+					                la catégorie plats masqués, à la fin du menu #}
+					<div class="container-fluid">
+						<div class="row row-cols-4">
+							{% for plat in plats_masques.plats %}
+								<div class="col my-2">
+									<a href="{{ path('plate_edit', {'id':plat.id}) }}">
+										<div class="card h-100">
+											<img src="{{ plat.image }}" class="card-img-top" alt="Photo de {{ plat.libelle }}" width="200" height="200">
+											<div class="card-body">
+												<h3 class="card-title">{{ plat.libelle }}</h3>
+												<p class="card-text">{{ plat.ingredients }}</p>
+												<p class="card-text">Convient au régime :
+													{{ plat.regime }}</p>
+												<p class="card-text">Allergènes :
+													{{ plat.allergene }}</p>
+												<div class="pt-3">
+													<a class="btn btn-primary" href="{{ path('plat_delete', {'id':plat.id}) }}">
+														<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewbox="0 0 16 16">
+															<path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
+														</svg>
+													</a>
+												</div>
+											</div>
+										</div>
+									</a>
+								</div>
+							{% endfor %}
+							<div class="col my-2">
+								<a href="{{ path('plate_create') }}">
+									<div class="card h-100">
+										<img src="https://bit.ly/2NAJeKC" class="card-img-top" alt="Photo de plat" width="200" height="200">
+										<div class="card-body">
+											<h3 class="card-title">Nouveau plat</h3>
+											<p class="card-text">Cliquer pour ajouter un nouveau plat</p>
+										</div>
+									</div>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			{% else %}
+				{# Sinon, ce sont les résultats de la recherche
+				            ou des filtres qui sont affichés #}
+				<div class="container-fluid mt-3">
+					<div class="row">
+						<div class="col my-3">
+							<h1>Résultats de votre recherche :
+							</h1>
+						</div>
+					</div>
+					<div class="row row-cols-4">
+						{% for plat in plats_search %}
+							<div class="col my-2">
+								<div class="card h-100">
+									<img src="{{ plat.image }}" class="card-img-top" alt="Photo de {{ plat.libelle }}" width="200" height="200">
+									<div class="card-body">
+										<h3 class="card-title">{{ plat.libelle }}</h3>
+										<p class="card-text">{{ plat.ingredients }}</p>
+										<p class="card-text">Convient au régime :
+											{{ plat.regime }}</p>
+										<p class="card-text">Allergènes :
+											{{ plat.allergene }}</p>
+										<a class="btn btn-primary" href="{{ path('plat_delete', {'id':plat.id}) }}" role="button">
+											<p>Supprimer</p>
+										</a>
+									</div>
+								</div>
+							</div>
+						{% endfor %}
+					</div>
+				</div>
+			{% endif %}
+		</div>
+	</div>
 {% endblock %}

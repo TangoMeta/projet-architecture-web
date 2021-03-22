@@ -72,7 +72,6 @@ class FilterPlatType extends AbstractType
                 'required' => false,
                 'label' => 'Produits laitiers'
             ])
-            ->add('valider', SubmitType::class)
-        ;
+            ->add('valider', SubmitType::class);
     }
 }

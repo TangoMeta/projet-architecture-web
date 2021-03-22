@@ -12,31 +12,41 @@ use App\Repository\PlatRepository;
 use Doctrine\ORM\EntityManagerInterface ;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class FabulousMenuController extends AbstractController
 {
     /**
      * @Route("/", name="menu")
+     * Affiche le menu pour le client
      */
     public function menu(Request $request, PlatRepository $platRepository)
     {
+        // Récupère les repository des entités
         $repoCat = $this->getDoctrine()->getRepository(Categorie::class);
         $repoPlat = $this->getDoctrine()->getRepository(Plat::class);
 
+        // Récupère les données depuis la base de données par l'envoi d'une requête
         $categories = $repoCat->findAll();
         $plats = $repoPlat->findAll();
 
+        // Création des formulaires de recherche et de filtrage
         $searchPlatForm = $this->createForm(SearchPlatType::class);
         $filterPlatForm = $this->createForm(FilterPlatType::class);
 
+        // Initialisation de la liste de récupération des résultats de la recherche
         $platsSearch = [];
 
+        /* Si une recherche est faite, récupération de ce qui est saisi, et passage en
+        paramètre de cet argument pour envoyer la requête via le repository */
         if($searchPlatForm->handleRequest($request)->isSubmitted() && $searchPlatForm->isValid()) {
             $criteria = $searchPlatForm->getData();
             $platsSearch = $platRepository->searchPlat($criteria);
         }
+        /* Si des filtres sont appliqués,
+        récupération des filtres,
+        puis traitement de ceux-ci afin de les appliquer convenablement,
+        puis envoi de la requête via le repository */
         elseif ($filterPlatForm->handleRequest($request)->isSubmitted() && $filterPlatForm->isValid()) {
             $filtersList = ['végétarien', 'vegan', 'pescetarien', 'soja', 'poisson', 'fruits à coques', 'gluten', 'mollusques', 'céléri', 'crustacés', 'oeuf', 'arachide', 'lupin', 'moutarde', 'produits laitiers'];
             $criteria = $filterPlatForm->getData();
@@ -66,6 +76,7 @@ class FabulousMenuController extends AbstractController
     
     /**
      * @Route("/menu/edit", name="menu_edit")
+     * Affiche le menu pour le restaurateur, avec une possibilité d'édition de celui-ci
      */
     public function menu_edit(Request $request, PlatRepository $platRepository)
     {
@@ -114,6 +125,7 @@ class FabulousMenuController extends AbstractController
     /**
      * @Route("/menu/new", name="plate_create")
      * @Route("/menu/{id}/edit", name="plate_edit")
+     * Affiche le formulaire de création/édition d'un plat
      */
     public function form_plat(Plat $plat = null, Request $request, EntityManagerInterface $manager, PlatRepository $platRepository)
     {
@@ -132,14 +144,18 @@ class FabulousMenuController extends AbstractController
             $platsSearch = $platRepository->searchPlat($criteria);
         }
         
+        // Si le paramètre plat est null, alors on est en mode création, et une entité Plat est créée
         if(!$plat) {
             $plat = new Plat();
         }
 
+        // Création du formulaire de création/édition du plat
         $form = $this->createForm(PlatType::class, $plat);
 
         $form->handleRequest($request);
 
+        /* Si le formulaire est envoyé et qu'il est valide,
+            alors l'entity manager fait persister la donnée créée */ 
         if($form->isSubmitted() && $form->isValid()) {
             $manager->persist($plat);
             $manager->flush();
@@ -205,8 +221,7 @@ class FabulousMenuController extends AbstractController
             $manager->persist($categorie);
             $manager->flush();
 
-            return $this->redirectToRoute('category_edit', [
-                'id' => $categorie->getId(),
+            return $this->redirectToRoute('menu_edit', [
                 'controller_name' => 'FabulousMenuController',
                 'categories' => $categories,
                 'plats' => $plats,
@@ -231,6 +246,7 @@ class FabulousMenuController extends AbstractController
      */
     public function delete_category(Categorie $categorie)
     {
+        // Le gestionnaire d'entité retire la catégorie de la base de données
         $em = $this->getDoctrine()->getManager();
         $em->remove($categorie);
         $em->flush();

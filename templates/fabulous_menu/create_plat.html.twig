@@ -3,34 +3,34 @@
 {% form_theme formPlat 'bootstrap_4_layout.html.twig' %}
 
 {% block body %}
-    <div class="container">
-        {{ form_start(formPlat) }}
-            <div class="row my-3">
-                <div class="col">
-                    <h1>Ajouter un plat</h1>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    {{ form_row(formPlat.libelle, {'attr': {'placeholder': "Nom du plat"}}) }}
-                    {{ form_row(formPlat.ingredients, {'attr': {'placeholder': "Liste des ingrédients"}}) }}
-                    {{ form_row(formPlat.regime, {'attr': {'placeholder': "Régime alimentaire qui convient"}}) }}
-                    {{ form_row(formPlat.allergene, {'attr': {'placeholder': "Allergènes présents"}}) }}
-                    {{ form_row(formPlat.image, {'attr': {'placeholder': "URL de la vignette du plat"}}) }}
-                    {{ form_row(formPlat.categorie) }}
-                </div>
-            </div>
-            <div class="row mt-2 mb-5">
-                <div class="col">
-                    <button type="submit" class="btn btn-success">
-                        {% if editMode %}
-                            Enregistrer les modifications
-                        {% else %}
-                            Ajouter le plat
-                        {% endif %}  
-                    </button>
-                </div>
-            </div>
-        {{ form_end(formPlat) }}
-    </div>
+	<div class="container">
+		{{ form_start(formPlat) }}
+		<div class="row my-3">
+			<div class="col">
+				<h1>Ajouter un plat</h1>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				{{ form_row(formPlat.libelle, {'attr': {'placeholder': "Nom du plat"}}) }}
+				{{ form_row(formPlat.ingredients, {'attr': {'placeholder': "Liste des ingrédients"}}) }}
+				{{ form_row(formPlat.regime, {'attr': {'placeholder': "Régime alimentaire qui convient"}}) }}
+				{{ form_row(formPlat.allergene, {'attr': {'placeholder': "Allergènes présents"}}) }}
+				{{ form_row(formPlat.image, {'attr': {'placeholder': "URL de la vignette du plat"}}) }}
+				{{ form_row(formPlat.categorie) }}
+			</div>
+		</div>
+		<div class="row mt-2 mb-5">
+			<div class="col">
+				<button type="submit" class="btn btn-success">
+					{% if editMode %}
+						Enregistrer les modifications
+					{% else %}
+						Ajouter le plat
+					{% endif %}
+				</button>
+			</div>
+		</div>
+		{{ form_end(formPlat) }}
+	</div>
 {% endblock %}
