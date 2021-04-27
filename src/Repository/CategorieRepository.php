@@ -12,4 +12,13 @@ class CategorieRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Categorie::class);
     }
+
+    // public function findOneById($id)
+    // {
+    //     return $this->createQueryBuilder('c')
+    //         ->where('c.id like :id')
+    //         ->setParameter('id', $id)
+    //         ->getQuery()
+    //         ->getResult();
+    // }
 }

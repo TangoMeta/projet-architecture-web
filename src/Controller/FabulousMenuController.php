@@ -240,29 +240,4 @@ class FabulousMenuController extends AbstractController
             'plats_search' => $platsSearch
         ]);
     }
-
-    /**
-     * @Route("/category/{id}/delete", name="category_delete")
-     */
-    public function delete_category(Categorie $categorie)
-    {
-        // Le gestionnaire d'entité retire la catégorie de la base de données
-        $em = $this->getDoctrine()->getManager();
-        $em->remove($categorie);
-        $em->flush();
-
-        return $this->redirectToRoute('menu_edit');
-    }
-
-    /**
-     * @Route("/plat/{id}/delete", name="plat_delete")
-     */
-    public function delete_plat(Plat $plat)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $em->remove($plat);
-        $em->flush();
-
-        return $this->redirectToRoute('menu_edit');
-    }
 }

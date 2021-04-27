@@ -2,8 +2,9 @@
 
 namespace App\Entity;
 
-use App\Repository\PlatRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\PlatRepository;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -15,42 +16,55 @@ class Plat
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("category:read")
+     * @Groups("plat:read")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Length(min=5, max=255)
+     * @Groups("category:read")
+     * @Groups("plat:read")
      */
     private $libelle;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Length(min=5, max=255)
+     * @Groups("category:read")
+     * @Groups("plat:read")
      */
     private $ingredients;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Categorie::class, inversedBy="plats")
+     * @ORM\ManyToOne(targetEntity=Categorie::class, inversedBy="plats", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
+     * @Groups("plat:read")
      */
     private $categorie;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Length(max=255)
+     * @Groups("category:read")
+     * @Groups("plat:read")
      */
     private $allergene;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Length(max=255)
+     * @Groups("category:read")
+     * @Groups("plat:read")
      */
     private $regime;
 
     /**
      * @ORM\Column(type="string", length=500, nullable=true)
      * @Assert\Url()
+     * @Groups("category:read")
+     * @Groups("plat:read")
      */
     private $image;
 
