@@ -14,7 +14,10 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
+
+header("Access-Control-Allow-Origin: *");
 
 class ApiPlatController extends AbstractController
 {
@@ -60,13 +63,32 @@ class ApiPlatController extends AbstractController
     /**
      * @Route("/api/plat/{id}", name="api_plat_delete", methods={"DELETE"})
      */
-    public function delete(Plat $plat)
+    public function delete(Request $request): Response
     {
-        $em = $this->getDoctrine()->getManager();
-        $em->remove($plat);
-        $em->flush();
+        $platId = $request->get('id');
 
-        return $this->json($plat, 200);
+        $plat = $this->getDoctrine()->getRepository(Plat::class)->find($platId);
+
+        if(!$plat) {
+            throw new NotFoundHttpException('Plat not found');
+        }
+
+        $this->getDoctrine()->getManager()->remove($plat);
+        $this->getDoctrine()->getManager()->flush();
+
+        $data = [
+            'status' => 200,
+            'message' => 'Le plat a bien été supprimé'
+        ];
+        return new JsonResponse($data);
+    }
+
+    /**
+     * @Route("/api/plat/{id}", name="api_get_plat", methods={"GET"})
+     */
+    public function getPlat(PlatRepository $platRepository, $id)
+    {
+        return $this->json($platRepository->find($id), 200, [], ['groups' => 'plat:read']);
     }
 
     /**
@@ -78,7 +100,7 @@ class ApiPlatController extends AbstractController
         $categoryUpdate = $this->getDoctrine()->getRepository(Categorie::class)->find($request->toArray()['categorie']['id']);
         $data = json_decode($request->getContent());
         foreach ($data as $key => $value){
-            if($key && !empty($value) && $key!="categorie") {
+            if($key && !empty($value) && $key!="categorie" && $key!="id") {
                 $name = ucfirst($key);
                 $setter = 'set'.$name;
                 $platUpdate->$setter($value);

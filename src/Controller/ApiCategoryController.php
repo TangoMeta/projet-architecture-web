@@ -15,6 +15,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 
+header("Access-Control-Allow-Origin: *");
+
 class ApiCategoryController extends AbstractController
 {
     /**
@@ -68,6 +70,14 @@ class ApiCategoryController extends AbstractController
     }
 
     /**
+     * @Route("/api/category/{id}", name="api_get_category", methods={"GET"})
+     */
+    public function getPlat(CategorieRepository $categorieRepository, $id)
+    {
+        return $this->json($categorieRepository->find($id), 200, [], ['groups' => 'category:read']);
+    }
+
+    /**
      * @Route("/api/category/{id}", name="api_category_update", methods={"PUT"})
      */
     public function update(Request $request, SerializerInterface $serializer, Categorie $categorie, ValidatorInterface $validator, EntityManagerInterface $entityManager)
@@ -75,7 +85,7 @@ class ApiCategoryController extends AbstractController
         $categoryUpdate = $entityManager->getRepository(Categorie::class)->find($categorie->getId());
         $data = json_decode($request->getContent());
         foreach ($data as $key => $value){
-            if($key && !empty($value)) {
+            if($key && !empty($value) && $key!="id") {
                 $name = ucfirst($key);
                 $setter = 'set'.$name;
                 $categoryUpdate->$setter($value);
