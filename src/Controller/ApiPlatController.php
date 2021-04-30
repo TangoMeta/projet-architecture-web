@@ -16,6 +16,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
+use Symfony\Component\Validator\Constraints\Length;
 
 header("Access-Control-Allow-Origin: *");
 
@@ -89,6 +90,60 @@ class ApiPlatController extends AbstractController
     public function getPlat(PlatRepository $platRepository, $id)
     {
         return $this->json($platRepository->find($id), 200, [], ['groups' => 'plat:read']);
+    }
+
+    /**
+     * @Route("/api/plat/search/{criteria}", name="api_plat_search", methods={"GET"})
+     */
+    public function search(PlatRepository $platRepository, $criteria)
+    {
+        return $this->json($platRepository->searchPlat(array("libelle" => $criteria)), 200, [], ['groups' => 'plat:read']);
+    }
+
+    /**
+     * @Route("/api/plat/filter/{criteria}", name="api_plat_filter", methods={"GET"})
+     */
+    public function filter(PlatRepository $platRepository, $criteria)
+    {
+        $filtersValue = ['végétarien',
+                        'vegan',
+                        'pescetarien',
+                        'soja',
+                        'poisson',
+                        'fruits à coques',
+                        'gluten',
+                        'mollusques',
+                        'céléri',
+                        'crustacés',
+                        'oeuf',
+                        'arachide',
+                        'lupin',
+                        'moutarde',
+                        'produits laitiers'];
+        $criteria = base_convert($criteria, 16, 2);
+        $filters = ['vegetarien' => null,
+                    'vegan' => null,
+                    'pescetarien' => null,
+                    'soja' => null,
+                    'poisson' => null,
+                    'fruits_coques' => null,
+                    'gluten' => null,
+                    'mollusques' => null,
+                    'celeri' => null,
+                    'crustaces' => null,
+                    'oeuf' => null,
+                    'arachide' => null, 
+                    'lupin' => null,
+                    'moutarde' => null,
+                    'produits_laitiers' => null];
+        $i = 0;
+        foreach ($filters as $key => $value) {
+            if ($criteria[$i] == "1") {
+                $filters[$key] = $filtersValue[$i];
+            }
+            $i++;
+        }
+        return $this->json($platRepository->filterPlat($filters), 200, [], ['groups' => 'plat:read']);
     }
 
     /**
