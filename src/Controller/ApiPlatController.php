@@ -120,7 +120,6 @@ class ApiPlatController extends AbstractController
                         'lupin',
                         'moutarde',
                         'produits laitiers'];
-        $criteria = base_convert($criteria, 16, 2);
         $filters = ['vegetarien' => null,
                     'vegan' => null,
                     'pescetarien' => null,
