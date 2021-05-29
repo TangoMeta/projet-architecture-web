@@ -182,62 +182,62 @@ class FabulousMenuController extends AbstractController
     }
 
 
-    /**
-     * @Route("/category/new", name="category_create")
-     * @Route("/category/{id}/edit", name="category_edit")
-     */
-    public function form_category(Categorie $categorie = null, Request $request, EntityManagerInterface $manager, PlatRepository $platRepository)
-    {
-        $repoCat = $this->getDoctrine()->getRepository(Categorie::class);
-        $repoPlat = $this->getDoctrine()->getRepository(Plat::class);
+    // /**
+    //  * @Route("/category/new", name="category_create")
+    //  * @Route("/category/{id}/edit", name="category_edit")
+    //  */
+    // public function form_category(Categorie $categorie = null, Request $request, EntityManagerInterface $manager, PlatRepository $platRepository)
+    // {
+    //     $repoCat = $this->getDoctrine()->getRepository(Categorie::class);
+    //     $repoPlat = $this->getDoctrine()->getRepository(Plat::class);
 
-        $categories = $repoCat->findAll();
-        $plats = $repoPlat->findAll();
+    //     $categories = $repoCat->findAll();
+    //     $plats = $repoPlat->findAll();
 
-        $searchPlatForm = $this->createForm(SearchPlatType::class);
+    //     $searchPlatForm = $this->createForm(SearchPlatType::class);
 
-        $platsSearch = [];
+    //     $platsSearch = [];
 
-        if($searchPlatForm->handleRequest($request)->isSubmitted() && $searchPlatForm->isValid()) {
-            $criteria = $searchPlatForm->getData();
-            $platsSearch = $platRepository->searchPlat($criteria);
-        }
+    //     if($searchPlatForm->handleRequest($request)->isSubmitted() && $searchPlatForm->isValid()) {
+    //         $criteria = $searchPlatForm->getData();
+    //         $platsSearch = $platRepository->searchPlat($criteria);
+    //     }
 
-        if(!$categorie) {
-            $categorie = new Categorie();
-        }
+    //     if(!$categorie) {
+    //         $categorie = new Categorie();
+    //     }
 
-        $form = $this->createForm(CategorieType::class, $categorie);
+    //     $form = $this->createForm(CategorieType::class, $categorie);
 
-        $form->handleRequest($request);
+    //     $form->handleRequest($request);
 
-        $repoCat = $this->getDoctrine()->getRepository(Categorie::class);
-        $repoPlat = $this->getDoctrine()->getRepository(Plat::class);
+    //     $repoCat = $this->getDoctrine()->getRepository(Categorie::class);
+    //     $repoPlat = $this->getDoctrine()->getRepository(Plat::class);
 
-        $categories = $repoCat->findAll();
-        $plats = $repoPlat->findAll();
+    //     $categories = $repoCat->findAll();
+    //     $plats = $repoPlat->findAll();
 
-        if($form->isSubmitted() && $form->isValid()) {
-            $manager->persist($categorie);
-            $manager->flush();
+    //     if($form->isSubmitted() && $form->isValid()) {
+    //         $manager->persist($categorie);
+    //         $manager->flush();
 
-            return $this->redirectToRoute('menu_edit', [
-                'controller_name' => 'FabulousMenuController',
-                'categories' => $categories,
-                'plats' => $plats,
-                'search_form' => $searchPlatForm->createView(),
-                'plats_search' => $platsSearch
-            ]);
-        }
+    //         return $this->redirectToRoute('menu_edit', [
+    //             'controller_name' => 'FabulousMenuController',
+    //             'categories' => $categories,
+    //             'plats' => $plats,
+    //             'search_form' => $searchPlatForm->createView(),
+    //             'plats_search' => $platsSearch
+    //         ]);
+    //     }
 
-        return $this->render('fabulous_menu/create_categorie.html.twig', [
-            'formCategorie' => $form->createView(),
-            'editMode' => $categorie->getId() !== null,
-            'controller_name' => 'FabulousMenuController',
-            'categories' => $categories,
-            'plats' => $plats,
-            'search_form' => $searchPlatForm->createView(),
-            'plats_search' => $platsSearch
-        ]);
-    }
+    //     return $this->render('fabulous_menu/create_categorie.html.twig', [
+    //         'formCategorie' => $form->createView(),
+    //         'editMode' => $categorie->getId() !== null,
+    //         'controller_name' => 'FabulousMenuController',
+    //         'categories' => $categories,
+    //         'plats' => $plats,
+    //         'search_form' => $searchPlatForm->createView(),
+    //         'plats_search' => $platsSearch
+    //     ]);
+    // }
 }

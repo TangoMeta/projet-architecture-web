@@ -31,6 +31,8 @@ class CategoryController extends AbstractController
 
         $platsSearch = [];
 
+        /* Si le formulaire est envoyé et qu'il est valide,
+        alors l'entity manager fait persister la donnée créée */ 
         if($searchPlatForm->handleRequest($request)->isSubmitted() && $searchPlatForm->isValid()) {
             $criteria = $searchPlatForm->getData();
             $platsSearch = $platRepository->searchPlat($criteria);
@@ -40,6 +42,7 @@ class CategoryController extends AbstractController
             $categorie = new Categorie();
         }
 
+        // Création du formulaire de création/édition de la catégorie
         $form = $this->createForm(CategorieType::class, $categorie);
 
         $form->handleRequest($request);

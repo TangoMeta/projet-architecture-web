@@ -24,7 +24,7 @@ class Categorie
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      * @Assert\Length(min=5, max=255)
      * @Groups("category:read")
      * @Groups("plat:read")

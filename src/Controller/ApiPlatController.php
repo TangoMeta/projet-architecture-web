@@ -27,6 +27,7 @@ class ApiPlatController extends AbstractController
      */
     public function index(PlatRepository $platRepository)
     {
+        // Récupération des plats
         return $this->json($platRepository->findAll(), 200, [], ['groups' => 'plat:read']);
     }
 
@@ -36,6 +37,8 @@ class ApiPlatController extends AbstractController
     public function create(Request $request, SerializerInterface $serializer, EntityManagerInterface $em,
     ValidatorInterface $validator) : Response
     {
+        // Création d'un plat
+
         $jsonRecu = $request->getContent();
 
         try {
@@ -66,6 +69,8 @@ class ApiPlatController extends AbstractController
      */
     public function delete(Request $request): Response
     {
+        // Suppression d'un plat
+
         $platId = $request->get('id');
 
         $plat = $this->getDoctrine()->getRepository(Plat::class)->find($platId);
@@ -89,6 +94,7 @@ class ApiPlatController extends AbstractController
      */
     public function getPlat(PlatRepository $platRepository, $id)
     {
+        // Récupération d'un plat
         return $this->json($platRepository->find($id), 200, [], ['groups' => 'plat:read']);
     }
 
@@ -97,6 +103,7 @@ class ApiPlatController extends AbstractController
      */
     public function search(PlatRepository $platRepository, $criteria)
     {
+        // Recherche d'un ou plusieurs plats
         return $this->json($platRepository->searchPlat(array("libelle" => $criteria)), 200, [], ['groups' => 'plat:read']);
     }
 
@@ -105,6 +112,7 @@ class ApiPlatController extends AbstractController
      */
     public function filter(PlatRepository $platRepository, $criteria)
     {
+        // Filtrage des plats affichés
         $filtersValue = ['végétarien',
                         'vegan',
                         'pescetarien',
@@ -150,6 +158,7 @@ class ApiPlatController extends AbstractController
      */
     public function update(Request $request, SerializerInterface $serializer, Plat $plat, ValidatorInterface $validator, EntityManagerInterface $entityManager)
     {
+        // Modification d'un plat
         $platUpdate = $entityManager->getRepository(Plat::class)->find($plat->getId());
         $categoryUpdate = $this->getDoctrine()->getRepository(Categorie::class)->find($request->toArray()['categorie']['id']);
         $data = json_decode($request->getContent());

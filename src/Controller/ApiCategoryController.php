@@ -24,6 +24,7 @@ class ApiCategoryController extends AbstractController
      */
     public function index(CategorieRepository $categorieRepository)
     {
+        // Récupération des catégories
         return $this->json($categorieRepository->findAll(), 200, [], ['groups' => 'category:read']);
     }
 
@@ -33,6 +34,8 @@ class ApiCategoryController extends AbstractController
     public function create(Request $request, SerializerInterface $serializer, EntityManagerInterface $em,
     ValidatorInterface $validator)
     {
+        // Création d'une catégorie
+
         $jsonRecu = $request->getContent();
 
         try {
@@ -62,6 +65,8 @@ class ApiCategoryController extends AbstractController
      */
     public function delete(Categorie $categorie)
     {
+        // Suppression d'une catégorie
+
         $em = $this->getDoctrine()->getManager();
         $em->remove($categorie);
         $em->flush();
@@ -74,6 +79,7 @@ class ApiCategoryController extends AbstractController
      */
     public function getPlat(CategorieRepository $categorieRepository, $id)
     {
+        // Récupération d'une catégorie
         return $this->json($categorieRepository->find($id), 200, [], ['groups' => 'category:read']);
     }
 
@@ -82,6 +88,8 @@ class ApiCategoryController extends AbstractController
      */
     public function update(Request $request, SerializerInterface $serializer, Categorie $categorie, ValidatorInterface $validator, EntityManagerInterface $entityManager)
     {
+        // Modificiation d'une catégorie
+        
         $categoryUpdate = $entityManager->getRepository(Categorie::class)->find($categorie->getId());
         $data = json_decode($request->getContent());
         foreach ($data as $key => $value){
