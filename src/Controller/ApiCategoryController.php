@@ -77,7 +77,7 @@ class ApiCategoryController extends AbstractController
     /**
      * @Route("/api/category/{id}", name="api_get_category", methods={"GET"})
      */
-    public function getPlat(CategorieRepository $categorieRepository, $id)
+    public function getCategory(CategorieRepository $categorieRepository, $id)
     {
         // Récupération d'une catégorie
         return $this->json($categorieRepository->find($id), 200, [], ['groups' => 'category:read']);
